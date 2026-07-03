@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dev Learning Lab — Vanilla Frontend</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Dev Learning Lab</h1>
+      <p class="subtitle">HTML + CSS + JavaScript — no frameworks yet</p>
+
+      <section class="card">
+        <h2>API Health Check</h2>
+        <p>Status: <span id="status" class="badge">not checked</span></p>
+        <button id="check-health">Check backend</button>
+      </section>
+
+      <section class="card">
+        <h2>Todos (from API)</h2>
+        <form id="todo-form">
+          <input
+            id="todo-input"
+            type="text"
+            placeholder="What do you want to learn next?"
+            required
+          />
+          <button type="submit">Add</button>
+        </form>
+        <ul id="todo-list"></ul>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

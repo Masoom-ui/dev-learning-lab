@@ -1,0 +1,29 @@
+# Local databases for learning — run: docker compose up -d
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: dev-lab-postgres
+    environment:
+      POSTGRES_USER: devlab
+      POSTGRES_PASSWORD: devlab
+      POSTGRES_DB: devlab
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+  mongodb:
+    image: mongo:7
+    container_name: dev-lab-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: devlab
+      MONGO_INITDB_ROOT_PASSWORD: devlab
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  postgres_data:
+  mongo_data:
