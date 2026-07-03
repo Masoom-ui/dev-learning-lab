@@ -4,7 +4,7 @@ Small challenges we'll complete together. Check them off as you go.
 
 ## Git
 
-- [ ] Make your first commit
+- [x ] Make your first commit
 - [ ] Create a branch, change a file, merge back to `main`
 - [ ] Push the repo to GitHub
 
@@ -37,3 +37,6 @@ Small challenges we'll complete together. Check them off as you go.
 - [ ] Deploy backend + frontend somewhere
 
 Tell me which exercise you want to start with.
+
+## My branch practice
+- [x] Learning branches step by step (Jatin)
