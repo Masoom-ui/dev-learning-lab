@@ -47,6 +47,11 @@ python --version
 
 You want 3.11 or newer.
 
+## Track your progress
+
+- [progress.md](../progress.md) — what you've done and what's next
+- [lessons.md](../lessons.md) — full lesson index
+
 ## Your first exercise
 
 1. Read [02-git-basics.md](02-git-basics.md)

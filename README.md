@@ -4,6 +4,10 @@ An experimental repository for learning software development from the ground up 
 
 This is **your sandbox**. Break things, try ideas, and build small projects here. I'll guide you through each topic as we go.
 
+**Track your learning:**
+- **[lessons.md](lessons.md)** — curriculum and links to every guide
+- **[progress.md](progress.md)** — what you've completed and what's next
+
 ---
 
 ## What you'll learn here
@@ -124,4 +128,4 @@ Ask questions anytime. This repo grows with you.
 
 ## Next step
 
-Open [docs/01-getting-started.md](docs/01-getting-started.md) and we'll begin.
+Check [progress.md](progress.md) for where you left off, or open [lessons.md](lessons.md) to see the full path.

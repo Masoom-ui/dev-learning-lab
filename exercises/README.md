@@ -4,9 +4,9 @@ Small challenges we'll complete together. Check them off as you go.
 
 ## Git
 
-- [x ] Make your first commit
-- [ ] Create a branch, change a file, merge back to `main`
-- [ ] Push the repo to GitHub
+- [x] Make your first commit
+- [x] Create a branch, change a file, merge back to `main`
+- [x] Push the repo to GitHub
 
 ## Backend
 

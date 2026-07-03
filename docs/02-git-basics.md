@@ -1,5 +1,7 @@
 # 02 — Git Basics
 
+**Progress:** [progress.md](../progress.md) · **All lessons:** [lessons.md](../lessons.md)
+
 Git is a **version control system**. It records snapshots of your project so you can:
 
 - See what changed and when
