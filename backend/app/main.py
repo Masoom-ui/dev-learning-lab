@@ -50,8 +50,10 @@ def root():
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "app": settings.app_name}
-
+    return {"status": "great", "app": settings.app_name}
+@app.get("/about")
+def about():
+    return {"name": "Jatin", "role": "learning backend development"}
 
 @app.get("/todos", response_model=list[Todo])
 def list_todos():

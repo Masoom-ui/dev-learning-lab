@@ -16,8 +16,8 @@ Repo: dev-learning-lab
 GitHub: https://github.com/Masoom-ui/dev-learning-lab
 Learner: Jatin (jatinwork.001@gmail.com)
 GitHub account: Masoom-ui
-Current lesson: 2 — Git basics (complete); next: Lesson 3 — Python API
-Next step: Commit progress.md + lessons.md, then run FastAPI backend
+Current lesson: 3 — Python backend (API concepts, step by step)
+Next step: Step 4 — add GET /about route with your name
 Read: progress.md + lessons.md
 ```
 
@@ -56,16 +56,19 @@ $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";"
 
 ## Current focus
 
-**Lesson 3 — Python backend · Run your first API**
+**Lesson 3 — Python backend · Understanding APIs (slow path)**
 
 | Step | Action | Status |
 |------|--------|--------|
-| 1 | `cd backend` + create venv | ⬜ Next |
-| 2 | `pip install -r requirements.txt` | ⬜ Pending |
-| 3 | `uvicorn app.main:app --reload` | ⬜ Pending |
-| 4 | Open http://127.0.0.1:8000/docs | ⬜ Pending |
+| 1 | Open `/health` in browser, see JSON answer | ✅ Done |
+| 2 | Connect browser answer to `health()` in `main.py` | ✅ Done |
+| 3 | Change `return` line, refresh, see answer change | ✅ Done |
+| 4 | Add your own `GET /about` route | ⬜ Next |
+| 5 | Commit + push API changes | ⬜ Pending |
 
-**You are on branch:** `main` (up to date with GitHub)
+**Key insight (Jatin's words):** *"I changed the code and the API answer changes and browser shows the new JSON."*
+
+**You are on branch:** `main`
 
 ---
 
