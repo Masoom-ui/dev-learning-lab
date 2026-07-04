@@ -34,8 +34,8 @@ Lesson 1 ──► Lesson 2 ──► Lesson 3 ──► Lesson 4 ──► Less
 |---|-------|-------|-----------------|--------|
 | 1 | Getting started | [docs/01-getting-started.md](docs/01-getting-started.md) | Terminal, `git status`, `python --version` | ✅ Done |
 | 2 | Git basics | [docs/02-git-basics.md](docs/02-git-basics.md) | [exercises/README.md](exercises/README.md) § Git | ✅ Done |
-| 3 | Python backend | [docs/03-python-backend.md](docs/03-python-backend.md) | [backend/](backend/) | 🔄 Next |
-| 4 | Frontend basics | [docs/04-frontend-basics.md](docs/04-frontend-basics.md) | [frontend/vanilla/](frontend/vanilla/) | ⬜ Not started |
+| 3 | Python backend | [docs/03-python-backend.md](docs/03-python-backend.md) | [backend/](backend/) | ✅ Core done |
+| 4 | Frontend basics | [docs/04-frontend-basics.md](docs/04-frontend-basics.md) | [frontend/vanilla/](frontend/vanilla/) | 🔄 In progress |
 | 5 | React | [docs/05-react.md](docs/05-react.md) | [frontend/react/](frontend/react/) | ⬜ Not started |
 | 6 | PostgreSQL | [docs/06-postgresql.md](docs/06-postgresql.md) | [database/postgres/](database/postgres/) | ⬜ Not started |
 | 7 | MongoDB | [docs/07-mongodb.md](docs/07-mongodb.md) | [database/mongodb/](database/mongodb/) | ⬜ Not started |

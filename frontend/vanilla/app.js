@@ -2,6 +2,8 @@ const API_BASE = "http://127.0.0.1:8000";
 
 const statusEl = document.getElementById("status");
 const checkHealthBtn = document.getElementById("check-health");
+const aboutNameEl = document.getElementById("about-name");
+const aboutRoleEl = document.getElementById("about-role");
 const todoForm = document.getElementById("todo-form");
 const todoInput = document.getElementById("todo-input");
 const todoList = document.getElementById("todo-list");
@@ -17,6 +19,19 @@ async function checkHealth() {
     statusEl.classList.add("ok");
   } catch (err) {
     statusEl.textContent = "offline — start the backend with uvicorn";
+    console.error(err);
+  }
+}
+
+async function loadAbout() {
+  try {
+    const res = await fetch(`${API_BASE}/about`);
+    const data = await res.json();
+    aboutNameEl.textContent = data.name;
+    aboutRoleEl.textContent = data.role;
+  } catch (err) {
+    aboutNameEl.textContent = "offline";
+    aboutRoleEl.textContent = "start the API";
     console.error(err);
   }
 }
@@ -62,5 +77,5 @@ todoForm.addEventListener("submit", async (e) => {
 
 checkHealthBtn.addEventListener("click", checkHealth);
 
-// Load todos on page open
+loadAbout();
 loadTodos();

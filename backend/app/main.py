@@ -10,16 +10,11 @@ app = FastAPI(
     version="0.1.0",
 )
 
-# Allow frontend (vanilla + React dev server) to call this API during learning
+# Allow frontend to call this API during learning (permissive for local dev)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://127.0.0.1:5500",  # Live Server
-        "http://localhost:5500",
-        "http://127.0.0.1:5173",  # Vite (React)
-        "http://localhost:5173",
-    ],
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
