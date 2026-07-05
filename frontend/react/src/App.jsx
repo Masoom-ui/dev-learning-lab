@@ -36,7 +36,7 @@ function App() {
 
   return (
     <main className="container">
-      <h1>Dev Learning Lab — React</h1>
+      <h1>Dev Learning Lab for Jatin Tewani— React</h1>
       <p className="subtitle">API status: {health}</p>
 
       <section className="card">
