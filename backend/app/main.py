@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from app.config import settings
+from app.db import get_connection
 
 app = FastAPI(
     title=settings.app_name,
@@ -29,11 +30,6 @@ class Todo(TodoCreate):
     done: bool = False
 
 
-# In-memory store for early lessons — we'll replace with PostgreSQL/MongoDB later
-_todos: list[Todo] = []
-_next_id = 1
-
-
 @app.get("/")
 def root():
     return {
@@ -46,19 +42,34 @@ def root():
 @app.get("/health")
 def health():
     return {"status": "great", "app": settings.app_name}
+
+
 @app.get("/about")
 def about():
     return {"name": "Jatin", "role": "learning backend development"}
 
+
 @app.get("/todos", response_model=list[Todo])
 def list_todos():
-    return _todos
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("SELECT id, title, done FROM todos ORDER BY id")
+            rows = cur.fetchall()
+    return [Todo(**row) for row in rows]
 
 
 @app.post("/todos", response_model=Todo, status_code=201)
 def create_todo(payload: TodoCreate):
-    global _next_id
-    todo = Todo(id=_next_id, title=payload.title)
-    _next_id += 1
-    _todos.append(todo)
-    return todo
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                INSERT INTO todos (user_id, title)
+                SELECT id, %s FROM users WHERE email = 'learner@devlab.local'
+                RETURNING id, title, done
+                """,
+                (payload.title,),
+            )
+            row = cur.fetchone()
+            conn.commit()
+    return Todo(**row)

@@ -3,7 +3,7 @@ uvicorn[standard]==0.34.0
 pydantic-settings==2.7.0
 python-dotenv==1.0.1
 
-# Database drivers — we'll use these in later lessons
-# psycopg2-binary==2.9.10
+# Database drivers
+psycopg2-binary==2.9.10
 # sqlalchemy==2.0.36
 # motor==3.6.0

@@ -18,7 +18,7 @@ uvicorn app.main:app --reload
 |--------|------|-------------|
 | GET | `/` | Welcome message |
 | GET | `/health` | Health check |
-| GET | `/todos` | List todos (in-memory) |
+| GET | `/todos` | List todos (PostgreSQL) |
 | POST | `/todos` | Create todo `{ "title": "..." }` |
 
 Interactive docs: http://127.0.0.1:8000/docs
