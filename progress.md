@@ -16,8 +16,8 @@ Repo: dev-learning-lab
 GitHub: https://github.com/Masoom-ui/dev-learning-lab
 Learner: Jatin (jatinwork.001@gmail.com)
 GitHub account: Masoom-ui
-Current lesson: 7 — MongoDB (next)
-Next step: Lesson 7 — start MongoDB with Docker
+Current lesson: 8 — Mini SaaS (next)
+Next step: Lesson 8 — Mini SaaS (when ready)
 Read: progress.md + lessons.md
 
 Servers needed for Lesson 4:
@@ -66,6 +66,24 @@ $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";"
 ---
 
 ## Current focus
+
+**Lesson 7 — MongoDB · Documents, collections, flexible data** — ✅ Complete
+
+| Step | Action | Status |
+|------|--------|--------|
+| 1 | Start MongoDB (`docker compose up -d mongodb`) | ✅ Done |
+| 2 | Insert sample notes (shell or Compass) | ✅ Done |
+| 3 | Browse data in MongoDB | ✅ Done |
+| 4 | Connect Python API to MongoDB | ✅ Done |
+| 5 | Compare Postgres todos vs Mongo notes | ✅ Done |
+
+**Guide:** [docs/07-mongodb.md](docs/07-mongodb.md) · **Code:** [database/mongodb/](database/mongodb/)
+
+**You are on branch:** `main`
+
+---
+
+## Lesson 5 — React (complete)
 
 **Lesson 5 — React · Components, state, API calls** — ✅ Complete
 
