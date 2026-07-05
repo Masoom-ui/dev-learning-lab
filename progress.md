@@ -16,8 +16,8 @@ Repo: dev-learning-lab
 GitHub: https://github.com/Masoom-ui/dev-learning-lab
 Learner: Jatin (jatinwork.001@gmail.com)
 GitHub account: Masoom-ui
-Current lesson: 4 — Frontend basics (in progress)
-Next step: Lesson 4 Step 6 — try todo form, then commit changes
+Current lesson: 7 — MongoDB (next)
+Next step: Lesson 7 — start MongoDB with Docker
 Read: progress.md + lessons.md
 
 Servers needed for Lesson 4:
@@ -48,8 +48,8 @@ Servers needed for Lesson 4:
 | Git | 2.55.0 | ✅ Installed |
 | GitHub CLI (`gh`) | 2.96.0 | ✅ Installed + browser auth |
 | Python | 3.12.10 | ✅ Installed |
-| Node.js | — | ⬜ Not installed yet (needed for React) |
-| Docker Desktop | — | ⬜ Not installed yet (needed for databases) |
+| Node.js | 24.18.0 | ✅ Installed |
+| Docker Desktop | 29.6.1 | ✅ Installed |
 
 **PATH tip:** After installing tools, open a **new terminal** or refresh PATH:
 
@@ -67,21 +67,37 @@ $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";"
 
 ## Current focus
 
-**Lesson 4 — Frontend basics · Connect browser to your API**
+**Lesson 5 — React · Components, state, API calls** — ✅ Complete
 
 | Step | Action | Status |
 |------|--------|--------|
-| 1 | Open vanilla page in browser | ✅ Done |
-| 2 | Understand HTML = structure (`index.html`) | ✅ Done |
-| 3 | Start API + frontend server, click "Check backend" → status `great` | ✅ Done |
-| 4 | Read `app.js` — `fetch()` + `addEventListener` | ✅ Done |
-| 5 | Add `/about` data to the page | ✅ Done |
-| 6 | Try todo form (POST to API) | ⬜ Next |
-| 7 | Commit frontend + CORS + progress changes | ⬜ Pending |
+| 1 | Install Node.js + `npm install` | ✅ Done |
+| 2 | Run `npm run dev` — open http://localhost:5173 | ✅ Done |
+| 3 | Edit `App.jsx` — see changes live | ✅ Done |
+| 4 | Fetch todos from API via Vite proxy | ✅ Done |
+| 5 | Build todo list in React | ✅ Done |
+
+**Guide:** [docs/05-react.md](docs/05-react.md) · **Code:** [frontend/react/](frontend/react/)
 
 **You are on branch:** `main`
 
-**Uncommitted changes:** `backend/app/main.py` (CORS relaxed for learning), `progress.md`, `lessons.md`
+---
+
+## Lesson 6 — PostgreSQL (complete)
+
+**Lesson 6 — PostgreSQL · Save data permanently** — ✅ Complete
+
+| Step | Action | Status |
+|------|--------|--------|
+| 1 | Install Docker Desktop | ✅ Done |
+| 2 | Start Postgres (`docker compose up -d postgres`) | ✅ Done |
+| 3 | See sample data (users + todos tables) | ✅ Done |
+| 4 | Connect Python API to PostgreSQL | ✅ Done |
+| 5 | Todos survive API restart | ✅ Done |
+
+**Why this lesson:** Right now todos live in memory — they vanish when you stop uvicorn. PostgreSQL **persists** data to disk.
+
+**You are on branch:** `main`
 
 ---
 
@@ -183,7 +199,7 @@ First branch attempt was undone with `git reset --hard 183ed92` to redo step-by-
 
 ## Lesson 4 — Frontend basics
 
-**Status:** 🔄 In progress
+**Status:** ✅ Complete
 
 ### Completed
 
@@ -230,9 +246,8 @@ cd C:\Users\KevinTewani\Documents\Projects\dev-learning-lab\frontend\vanilla
 
 ### Not yet done
 
-- [x] Add `/about` to the page — shows Jatin + role from API
-- [ ] Try todo form (POST to API)
-- [ ] Commit frontend + CORS changes
+- [x] Try todo form (POST to API)
+- [x] Commit frontend + CORS changes (`da55127`)
 
 ---
 
@@ -256,6 +271,7 @@ cd C:\Users\KevinTewani\Documents\Projects\dev-learning-lab\frontend\vanilla
 | `d488fc1` | `docs: complete branch practice exercise` | Lesson 2, merged to main |
 | `064eebd` | `docs: add progress and lessons tracking files` | Tracking files |
 | `79c9c72` | `feat: add /about endpoint and learn API basics` | Lesson 3 |
+| `da55127` | `feat: connect frontend to API with about section and todos` | Lesson 4 |
 
 ---
 
