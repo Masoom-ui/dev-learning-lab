@@ -1,9 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from app.config import settings
 from app.db import get_connection
+from app.mongo_client import get_notes_collection
 
 app = FastAPI(
     title=settings.app_name,
@@ -28,6 +29,25 @@ class TodoCreate(BaseModel):
 class Todo(TodoCreate):
     id: int
     done: bool = False
+
+
+class NoteCreate(BaseModel):
+    title: str
+    tags: list[str] = Field(default_factory=list)
+
+
+class Note(NoteCreate):
+    id: str
+    done: bool = False
+
+
+def _doc_to_note(doc: dict) -> Note:
+    return Note(
+        id=str(doc["_id"]),
+        title=doc["title"],
+        tags=doc.get("tags", []),
+        done=doc.get("done", False),
+    )
 
 
 @app.get("/")
@@ -73,3 +93,21 @@ def create_todo(payload: TodoCreate):
             row = cur.fetchone()
             conn.commit()
     return Todo(**row)
+
+
+@app.get("/notes", response_model=list[Note])
+def list_notes():
+    docs = get_notes_collection().find().sort("_id", 1)
+    return [_doc_to_note(doc) for doc in docs]
+
+
+@app.post("/notes", response_model=Note, status_code=201)
+def create_note(payload: NoteCreate):
+    doc = {
+        "title": payload.title,
+        "tags": payload.tags,
+        "done": False,
+    }
+    result = get_notes_collection().insert_one(doc)
+    doc["_id"] = result.inserted_id
+    return _doc_to_note(doc)
