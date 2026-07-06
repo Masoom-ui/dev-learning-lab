@@ -1,22 +1,33 @@
+from contextlib import asynccontextmanager
+
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr, Field
 
 from app.auth import create_access_token, hash_password, verify_password
+from app.bootstrap import bootstrap_db
 from app.config import settings
 from app.db import get_connection
 from app.deps import CurrentUser, get_current_user
 from app.mongo_client import get_notes_collection
 
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    bootstrap_db()
+    yield
+
+
 app = FastAPI(
     title=settings.app_name,
     description="Experimental API for learning backend development.",
     version="0.1.0",
+    lifespan=lifespan,
 )
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=settings.cors_origin_list,
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -39,7 +39,7 @@ Lesson 1 ──► Lesson 2 ──► Lesson 3 ──► Lesson 4 ──► Less
 | 5 | React | [docs/05-react.md](docs/05-react.md) | [frontend/react/](frontend/react/) | ✅ Done |
 | 6 | PostgreSQL | [docs/06-postgresql.md](docs/06-postgresql.md) | [database/postgres/](database/postgres/) | ✅ Done |
 | 7 | MongoDB | [docs/07-mongodb.md](docs/07-mongodb.md) | [database/mongodb/](database/mongodb/) | ✅ Done |
-| 8 | Mini SaaS project | [docs/08-mini-saas.md](docs/08-mini-saas.md) | Full stack + deploy | 🔄 In progress |
+| 8 | Mini SaaS project | [docs/08-mini-saas.md](docs/08-mini-saas.md) · [deploy.md](docs/deploy.md) | Full stack + deploy | 🔄 In progress |
 
 Status key: ✅ Done · 🔄 In progress · ⬜ Not started
 

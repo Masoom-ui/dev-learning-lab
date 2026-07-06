@@ -17,7 +17,7 @@ GitHub: https://github.com/Masoom-ui/dev-learning-lab
 Learner: Jatin (jatinwork.001@gmail.com)
 GitHub account: Masoom-ui
 Current lesson: 8 — Mini SaaS (in progress)
-Next step: Lesson 8 Step 3 — React login UI + token in fetch calls
+Next step: Lesson 8 Step 4 — deploy (when ready)
 Read: progress.md + lessons.md
 
 Servers needed for Lesson 4:
@@ -73,8 +73,8 @@ $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";"
 |------|--------|--------|
 | 1 | Backend auth — register, login, JWT | ✅ Done |
 | 2 | Protect `/todos` and `/notes` | ✅ Done |
-| 3 | React login UI + send token | 🔄 Next |
-| 4 | Deploy to the internet | ⬜ Pending |
+| 3 | React login UI + send token | ✅ Done |
+| 4 | Deploy to the internet | 🔄 In progress — see [deploy.md](deploy.md) |
 
 **Guide:** [docs/08-mini-saas.md](docs/08-mini-saas.md)
 

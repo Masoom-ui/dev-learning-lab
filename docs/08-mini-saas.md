@@ -71,38 +71,58 @@ Authorization: Bearer <your_access_token>
 
 Without a token → **401 Unauthorized**.
 
-## Step 3 — React login UI (next)
+## Step 3 — React login UI ✅
 
-Planned work in `frontend/react/`:
+Implemented in `frontend/react/src/`:
 
-1. **Login / register forms**
-2. Save token: `localStorage.setItem("token", access_token)`
-3. Send on every API call:
+| File | Purpose |
+|------|---------|
+| `api.js` | `getToken`, `setToken`, `authFetch` with Bearer header |
+| `App.jsx` | Login/register forms, dashboard, logout |
 
-```javascript
-fetch("/api/todos", {
-  headers: { Authorization: `Bearer ${token}` },
-})
+### Try it
+
+**Terminal 1 — API:**
+```powershell
+cd backend
+.\.venv\Scripts\uvicorn.exe app.main:app --reload
 ```
 
-4. **Logout** — clear token, redirect to login
-5. If 401 → send user back to login
+**Terminal 2 — React:**
+```powershell
+cd frontend/react
+npm.cmd run dev
+```
 
-## Step 4 — Deploy (later)
+1. Open http://localhost:5173 (or port Vite shows)
+2. **Register** or **Log in** with your account
+3. Add todos — only yours appear
+4. **Log out** — returns to login screen
+5. Refresh page — still logged in (token in `localStorage`)
 
-| Piece | Options |
-|-------|---------|
-| Backend | Railway, Render, Fly.io |
-| Frontend | Vercel, Netlify |
-| Postgres | Managed DB or cloud Docker |
-| MongoDB | MongoDB Atlas |
+## Step 4 — Deploy
+
+**Full guide:** [deploy.md](deploy.md)
+
+| Platform | What |
+|----------|------|
+| **Render** | FastAPI + PostgreSQL (`render.yaml`) |
+| **MongoDB Atlas** | MongoDB free M0 cluster |
+| **Vercel** | React frontend |
+
+### Quick steps
+
+1. **MongoDB Atlas** — create free cluster → copy `MONGODB_URL`
+2. **Render** — New Blueprint from GitHub → uses `render.yaml`
+3. Set on Render: `MONGODB_URL`, `CORS_ORIGINS` (after Vercel)
+4. **Vercel** — import repo, root `frontend/react`, set `VITE_API_URL=https://YOUR-API.onrender.com`
+5. Test your public URL — register, login, add todos
 
 **Production checklist:**
 
-- Set strong `JWT_SECRET` in env (never commit)
-- Set real `DATABASE_URL` and `MONGODB_URL`
-- Configure CORS for your frontend URL
-- `npm run build` for React
+- Strong `JWT_SECRET` (Render can auto-generate)
+- `CORS_ORIGINS` = your exact Vercel URL
+- Never commit `.env` files
 
 ## Database migration
 
@@ -138,7 +158,7 @@ JWT_EXPIRE_MINUTES=10080
 - [x] `/auth/me` returns user with token
 - [x] `/todos` and `/notes` require auth
 - [x] Each user sees only their data
-- [ ] React login UI wired up
+- [x] React login UI wired up
 - [ ] Deployed to a public URL
 
 ## You completed the curriculum when…

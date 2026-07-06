@@ -13,7 +13,7 @@ Step-by-step guides for the Dev Learning Lab curriculum.
 | 5 | React | [05-react.md](05-react.md) | [frontend/react/](../frontend/react/) |
 | 6 | PostgreSQL | [06-postgresql.md](06-postgresql.md) | [database/postgres/](../database/postgres/) |
 | 7 | MongoDB | [07-mongodb.md](07-mongodb.md) | [database/mongodb/](../database/mongodb/) |
-| 8 | Mini SaaS | [08-mini-saas.md](08-mini-saas.md) | Full stack + deploy |
+| 8 | Mini SaaS | [08-mini-saas.md](08-mini-saas.md) · [deploy.md](deploy.md) | Full stack + deploy |
 
 ```
 Lesson 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
