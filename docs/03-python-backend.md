@@ -1,80 +1,128 @@
 # 03 — Python Backend
 
-The backend is the **brain** of your app. It handles business logic, talks to databases, and exposes **APIs** that frontends call over HTTP.
+**Progress:** [progress.md](../progress.md) · **All lessons:** [lessons.md](../lessons.md) · **Prev:** [02-git-basics.md](02-git-basics.md) · **Next:** [04-frontend-basics.md](04-frontend-basics.md)
 
-We use **FastAPI** — modern, fast, and great for learning because it auto-generates API documentation.
+The backend is the **brain** of your app — business logic, databases, and **APIs** that frontends call over HTTP.
+
+We use **FastAPI** with auto-generated docs at `/docs`.
+
+## Goals
+
+- Run the API with uvicorn
+- Understand routes (URLs → Python functions)
+- Build GET and POST endpoints
+- Read JSON request/response
 
 ## Project structure
 
 ```
 backend/
 ├── app/
-│   ├── main.py       # App entry point, routes
-│   ├── config.py     # Settings (DB URLs, secrets)
-│   └── db/           # Database connections (added later)
+│   ├── main.py          # Routes and app setup
+│   ├── config.py        # Settings from .env
+│   ├── db.py            # PostgreSQL (Lesson 6)
+│   └── mongo_client.py  # MongoDB (Lesson 7)
 ├── requirements.txt
 └── .env.example
 ```
 
-## Running the API
+## Step-by-step
 
-```bash
+### Step 1 — Setup (first time)
+
+```powershell
 cd backend
 python -m venv .venv
-.venv\Scripts\activate          # Windows
-pip install -r requirements.txt
-uvicorn app.main:app --reload
+.\.venv\Scripts\pip.exe install -r requirements.txt
+copy .env.example .env
+```
+
+### Step 2 — Start the API
+
+```powershell
+cd backend
+.\.venv\Scripts\uvicorn.exe app.main:app --reload
 ```
 
 - API: http://127.0.0.1:8000
-- Interactive docs: http://127.0.0.1:8000/docs
+- Docs: http://127.0.0.1:8000/docs
+
+Leave this terminal open.
+
+### Step 3 — Hit `/health` in the browser
+
+Open http://127.0.0.1:8000/health — you should see JSON like:
+
+```json
+{"status": "great", "app": "Dev Learning Lab API"}
+```
+
+### Step 4 — Connect URL to code
+
+In `backend/app/main.py`, find `@app.get("/health")` — the URL maps to that function. Change the `return` line and refresh the browser.
+
+### Step 5 — Build `/about`
+
+Add your own endpoint:
+
+```python
+@app.get("/about")
+def about():
+    return {"name": "Jatin", "role": "learning backend development"}
+```
+
+Test at http://127.0.0.1:8000/about
+
+### Step 6 — Understand todos (early version)
+
+`GET /todos` and `POST /todos` — initially in-memory, later PostgreSQL (Lesson 6).
 
 ## Key concepts
 
-### Routes (endpoints)
+| Concept | Meaning |
+|---------|---------|
+| `@app.get("/path")` | Listen for GET requests at that URL |
+| `return {...}` | JSON response sent to the client |
+| **Pydantic** | Validates request bodies (`TodoCreate`) |
+| **uvicorn** | Keeps Python running to answer HTTP requests |
+| **CORS** | Lets the browser call your API from another port |
 
-A route maps a URL + HTTP method to a function:
-
-```python
-@app.get("/hello")
-def hello():
-    return {"message": "Hello!"}
-```
+## HTTP methods
 
 | Method | Typical use |
 |--------|-------------|
 | GET | Read data |
 | POST | Create data |
-| PUT/PATCH | Update data |
-| DELETE | Remove data |
+| PUT/PATCH | Update |
+| DELETE | Remove |
 
-### Request & response bodies
+## Endpoints you'll build
 
-POST/PATCH often send JSON:
+| URL | Method | Description |
+|-----|--------|-------------|
+| `/` | GET | Welcome |
+| `/health` | GET | Health check |
+| `/about` | GET | Your name + role |
+| `/todos` | GET/POST | Todo list |
+| `/notes` | GET/POST | Notes (Lesson 7) |
+| `/auth/*` | POST/GET | Login (Lesson 8) |
 
-```python
-@app.post("/items")
-def create_item(item: Item):  # Pydantic model validates input
-    return item
-```
+## Common mistakes
 
-### Environment variables
+| Mistake | Fix |
+|---------|-----|
+| `python` not found | Use `.\.venv\Scripts\uvicorn.exe` directly |
+| Port 8000 in use | Stop old uvicorn with Ctrl+C |
+| Edited code, no change | Check `--reload` terminal for errors |
 
-Never hardcode passwords. Use `.env` (see `.env.example`) and load with `config.py`.
+## Checklist
 
-## Learning path
+- [ ] uvicorn running, `/docs` opens
+- [ ] Edited `/health`, saw browser update
+- [ ] Built `/about` endpoint
+- [ ] Committed: `feat: add /about endpoint and learn API basics`
 
-1. Read and run `backend/app/main.py`
-2. Add a new GET route `/about` returning your name
-3. Add a POST route that accepts `{ "title": "..." }` for a todo
-4. Connect PostgreSQL (see [06-postgresql.md](06-postgresql.md))
-5. Connect MongoDB (see [07-mongodb.md](07-mongodb.md))
+## Next lessons
 
-## SaaS building blocks (later)
-
-- User authentication (JWT or sessions)
-- Multi-tenant data (org_id on every row)
-- Background jobs (emails, reports)
-- Rate limiting and validation
-
-We'll add these incrementally as mini-projects.
+- [04 — Frontend basics](04-frontend-basics.md) — call this API from a webpage
+- [06 — PostgreSQL](06-postgresql.md) — persist todos to disk

@@ -1,24 +1,25 @@
 # 02 — Git Basics
 
-**Progress:** [progress.md](../progress.md) · **All lessons:** [lessons.md](../lessons.md)
+**Progress:** [progress.md](../progress.md) · **All lessons:** [lessons.md](../lessons.md) · **Prev:** [01-getting-started.md](01-getting-started.md) · **Next:** [03-python-backend.md](03-python-backend.md)
 
-Git is a **version control system**. It records snapshots of your project so you can:
+Git is a **version control system**. It records snapshots of your project so you can undo mistakes, branch safely, and collaborate on GitHub.
 
-- See what changed and when
-- Undo mistakes
-- Work on features in branches without breaking main code
-- Collaborate with others (via GitHub, GitLab, etc.)
+## Goals
+
+- Stage, commit, and push changes
+- Create and merge branches
+- Understand the daily developer workflow
 
 ## Core concepts
 
 | Term | Meaning |
 |------|---------|
-| **Repository (repo)** | A project folder tracked by Git |
-| **Commit** | A saved snapshot with a message describing the change |
-| **Branch** | A parallel line of development (e.g. `feature/login`) |
-| **Merge** | Combine branch changes back into another branch |
-| **Remote** | A copy of the repo on a server (GitHub) |
-| **Push / Pull** | Send commits to remote / download commits from remote |
+| **Repository (repo)** | Project folder tracked by Git |
+| **Commit** | Saved snapshot with a message |
+| **Branch** | Parallel line of work (e.g. `feature/login`) |
+| **Merge** | Combine branch back into `main` |
+| **Remote** | Copy on GitHub |
+| **Push / Pull** | Upload / download commits |
 
 ## The basic workflow
 
@@ -26,104 +27,93 @@ Git is a **version control system**. It records snapshots of your project so you
 edit files → git add → git commit → git push
 ```
 
-### 1. Check status
+## Step-by-step
 
-```bash
+### Step 1 — Check status
+
+```powershell
 git status
 ```
 
 Shows modified, staged, and untracked files.
 
-### 2. Stage changes
+### Step 2 — Stage changes
 
-```bash
-git add path/to/file.py      # one file
-git add .                    # everything changed
+```powershell
+git add path/to/file.md
+git add progress.md lessons.md
 ```
 
-Staging means "include these changes in the next commit."
+Staging = "include in the next commit."
 
-### 3. Commit
+### Step 3 — Commit
 
-```bash
-git commit -m "feat: add health check endpoint"
+```powershell
+git commit -m "docs: complete branch practice exercise"
 ```
 
-Write messages that explain **why**, not just what:
+Good messages explain **why**: `feat: add health endpoint`, `fix: handle empty email`.
 
-- Good: `fix: handle empty email on signup`
-- Weak: `update file`
+### Step 4 — View history
 
-### 4. View history
-
-```bash
+```powershell
 git log --oneline
 ```
 
-### 5. Branches
+### Step 5 — Branch practice
 
-```bash
-git branch                    # list branches
-git checkout -b feature/todos # create and switch
-git checkout main             # switch back
-```
-
-Modern Git also uses:
-
-```bash
-git switch -c feature/todos
+```powershell
+git switch -c practice/git-branch
+# edit a file, then:
+git add exercises/README.md
+git commit -m "docs: branch practice"
 git switch main
+git merge practice/git-branch
+git push origin main
 ```
 
-### 6. Connect to GitHub
+### Step 6 — Connect to GitHub
 
-After creating a repo on GitHub:
-
-```bash
-git remote add origin https://github.com/YOUR_USER/dev-learning-lab.git
-git push -u origin main
+```powershell
+git remote -v
+git push origin main
 ```
+
+## Commit message types (optional)
+
+| Type | Use |
+|------|-----|
+| `feat:` | New feature |
+| `fix:` | Bug fix |
+| `docs:` | Documentation only |
+| `chore:` | Setup, tooling |
 
 ## Common situations
 
-### Undo unstaged edits to a file
-
-```bash
-git checkout -- path/to/file
-# or
-git restore path/to/file
+```powershell
+git diff                    # see unstaged changes
+git restore path/to/file    # undo unstaged edits
+git branch                  # list branches (* = current)
 ```
 
-### See what changed
+## `.gitignore`
 
-```bash
-git diff
-```
+Never commit secrets (`.env`), dependencies (`node_modules/`), or virtualenvs (`.venv/`).
 
-### `.gitignore`
+## Exercises
 
-Files listed in `.gitignore` are never committed — secrets (`.env`), dependencies (`node_modules/`), etc.
+Do these in [exercises/README.md](../exercises/README.md):
 
-## Practice exercises
+1. **First commit** — add your name, commit, push
+2. **Branch practice** — create branch, edit, merge to `main`
+3. **Push to GitHub** — keep remote in sync
 
-Do these in order with me:
+## Checklist
 
-1. **First commit** — commit the initial repo structure
-2. **Branch practice** — create `practice/git-branch`, add a line to `exercises/README.md`, commit, merge to `main`
-3. **Push to GitHub** — create a remote repo and push
+- [ ] Made at least one commit
+- [ ] Created and merged a branch
+- [ ] Pushed to GitHub (`Masoom-ui/dev-learning-lab`)
 
-## Commit message convention (optional but helpful)
+## Next lesson
 
-```
-type: short description
-
-feat:     new feature
-fix:      bug fix
-docs:     documentation only
-refactor: code change, no behavior change
-test:     adding tests
-```
-
----
-
-When you're ready, say *"Let's do the first Git exercise"* and we'll walk through it live.
+[03 — Python backend](03-python-backend.md) — your first API.

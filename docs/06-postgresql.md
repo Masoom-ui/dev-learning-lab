@@ -1,87 +1,127 @@
 # 06 — PostgreSQL
 
-PostgreSQL is a **relational** database. Data lives in **tables** with **rows** and **columns**. Tables link via **foreign keys** — ideal for structured SaaS data (users, subscriptions, invoices).
+**Progress:** [progress.md](../progress.md) · **All lessons:** [lessons.md](../lessons.md) · **Prev:** [05-react.md](05-react.md) · **Next:** [07-mongodb.md](07-mongodb.md)
+
+PostgreSQL is a **relational** database — **tables**, **rows**, **columns**, and **foreign keys**. Ideal for structured SaaS data (users, orders, todos).
+
+## Goals
+
+- Run Postgres in Docker
+- Query sample data with SQL
+- Connect FastAPI to PostgreSQL
+- Prove todos survive API restart
 
 ## When to use PostgreSQL
 
-- Data has clear structure and relationships
-- You need transactions (money, inventory)
-- Complex queries with JOINs
-- Strong consistency requirements
+- Clear structure and relationships
+- Transactions (money, inventory)
+- JOINs across tables
+- Strong consistency
 
-## Local setup
+## Step-by-step
 
-```bash
+### Step 1 — Install Docker Desktop
+
+Download from https://www.docker.com/products/docker-desktop/
+
+### Step 2 — Start Postgres
+
+```powershell
+cd C:\Users\KevinTewani\Documents\Projects\dev-learning-lab
 docker compose up -d postgres
 ```
 
-Connection (see `backend/.env.example`):
+Container: **`dev-lab-postgres`** on port **5432**.
+
+### Step 3 — See sample data
+
+```powershell
+docker exec -it dev-lab-postgres psql -U devlab -d devlab
+```
+
+```sql
+SELECT * FROM users;
+SELECT * FROM todos;
+\q
+```
+
+Sample user: `learner@devlab.local` · Sample todo: `Learn Git basics`
+
+### Step 4 — Connect Python API
+
+Files added/changed:
+
+| File | Purpose |
+|------|---------|
+| `backend/app/db.py` | PostgreSQL connection helper |
+| `backend/app/main.py` | SQL instead of in-memory `_todos` |
+| `backend/requirements.txt` | `psycopg2-binary` |
+
+Install driver:
+
+```powershell
+cd backend
+.\.venv\Scripts\pip.exe install psycopg2-binary
+```
+
+Connection string (in `.env`):
 
 ```
 postgresql://devlab:devlab@localhost:5432/devlab
 ```
 
+**GET `/todos`** runs:
+
+```sql
+SELECT id, title, done FROM todos ORDER BY id
+```
+
+### Step 5 — Prove persistence
+
+1. Start uvicorn, GET `/todos` — see todos
+2. Stop uvicorn (Ctrl+C), start again
+3. GET `/todos` — todos still there (from disk, not memory)
+
 ## SQL essentials
 
 ```sql
--- Create
-CREATE TABLE users (
-  id SERIAL PRIMARY KEY,
-  email VARCHAR(255) UNIQUE NOT NULL,
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- Insert
-INSERT INTO users (email) VALUES ('you@example.com');
-
--- Query
-SELECT * FROM users WHERE email = 'you@example.com';
-
--- Update
-UPDATE users SET email = 'new@example.com' WHERE id = 1;
-
--- Delete
-DELETE FROM users WHERE id = 1;
+SELECT * FROM todos WHERE user_id = 1;
+INSERT INTO todos (user_id, title) VALUES (1, 'New todo');
+UPDATE todos SET done = true WHERE id = 1;
+DELETE FROM todos WHERE id = 1;
 ```
 
-## Relationships
+## Schema
 
-```sql
-CREATE TABLE todos (
-  id SERIAL PRIMARY KEY,
-  user_id INTEGER REFERENCES users(id),
-  title TEXT NOT NULL,
-  done BOOLEAN DEFAULT FALSE
-);
-```
+See [database/postgres/init.sql](../database/postgres/init.sql):
 
-One user → many todos. Query with JOIN:
-
-```sql
-SELECT todos.* FROM todos
-JOIN users ON users.id = todos.user_id
-WHERE users.email = 'you@example.com';
-```
-
-## From Python (SQLAlchemy — we'll add later)
-
-```python
-# Conceptual — we'll implement together
-user = session.query(User).filter_by(email="you@example.com").first()
-```
+- `users` — id, email, display_name, password_hash (Lesson 8)
+- `todos` — id, user_id → users, title, done
 
 ## Files in this repo
 
-- `database/postgres/init.sql` — schema created when Docker starts
-- Practice queries in `database/postgres/exercises.sql` (create with me)
+- `database/postgres/init.sql` — schema + sample data
+- `database/postgres/README.md` — connection details
+- `database/postgres/migrations/` — schema updates (Lesson 8)
 
 ## PostgreSQL vs MongoDB
 
 | PostgreSQL | MongoDB |
 |------------|---------|
-| Tables, rows, columns | Collections, documents |
-| Fixed schema (mostly) | Flexible schema |
-| JOINs across tables | Embed or reference documents |
-| ACID transactions | Transactions supported, often document-scoped |
+| Tables, rows | Collections, documents |
+| Fixed schema | Flexible JSON shape |
+| SQL + JOINs | Document queries |
 
-Many SaaS apps use **both**: Postgres for core business data, Mongo for logs, analytics events, or unstructured content.
+Many apps use **both** — Postgres for core data, Mongo for flexible content.
+
+## Checklist
+
+- [ ] Docker running, Postgres up
+- [ ] Queried `users` and `todos` in psql
+- [ ] API returns todos from database
+- [ ] Todos survive uvicorn restart
+- [ ] Committed: `feat: persist todos in PostgreSQL instead of in-memory store`
+
+## Next lesson
+
+[07 — MongoDB](07-mongodb.md) — flexible documents for notes.

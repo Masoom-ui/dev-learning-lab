@@ -1,80 +1,127 @@
 # 07 — MongoDB
 
-MongoDB stores **documents** (JSON-like BSON) in **collections**. No rigid table schema — great for evolving data shapes and nested objects.
+**Progress:** [progress.md](../progress.md) · **All lessons:** [lessons.md](../lessons.md) · **Prev:** [06-postgresql.md](06-postgresql.md) · **Next:** [08-mini-saas.md](08-mini-saas.md)
+
+MongoDB stores **documents** (JSON-like BSON) in **collections**. Flexible schema — great for nested data, tags, and evolving shapes.
+
+## Goals
+
+- Run MongoDB in Docker
+- Insert and browse sample notes
+- Connect FastAPI with PyMongo
+- Compare Postgres todos vs Mongo notes
 
 ## When to use MongoDB
 
-- Document structure varies (user-generated content, configs)
-- Nested arrays/objects are common
+- Variable document structure
+- Nested arrays/objects (tags, comments)
 - Rapid prototyping without migrations
-- Event logs, activity feeds, CMS content
+- Logs, feeds, CMS content
 
-## Local setup
+## Step-by-step
 
-```bash
+### Step 1 — Start MongoDB
+
+```powershell
 docker compose up -d mongodb
 ```
 
-Connection string:
+Container: **`dev-lab-mongo`** on port **27017**.
 
-```
-mongodb://devlab:devlab@localhost:27017
+### Step 2 — Seed sample notes
+
+```powershell
+docker cp database/mongodb/seed-notes.js dev-lab-mongo:/seed-notes.js
+docker exec dev-lab-mongo mongosh -u devlab -p devlab --authenticationDatabase admin devlab --file /seed-notes.js
 ```
 
-## Basic operations (MongoDB shell / Compass)
+Or insert manually in shell:
+
+```powershell
+docker exec -it dev-lab-mongo mongosh -u devlab -p devlab --authenticationDatabase admin
+```
 
 ```javascript
-// Insert
+use devlab
 db.notes.insertOne({
   title: "My first note",
   tags: ["learning", "dev"],
   createdAt: new Date()
-});
-
-// Find
-db.notes.find({ tags: "learning" });
-
-// Update
-db.notes.updateOne(
-  { title: "My first note" },
-  { $set: { done: true } }
-);
-
-// Delete
-db.notes.deleteOne({ title: "My first note" });
+})
+db.notes.find()
 ```
 
-## From Python (Motor/PyMongo — we'll add later)
+### Step 3 — Browse data
 
-```python
-# Conceptual
-await db.notes.insert_one({"title": "Hello", "tags": ["demo"]})
-docs = await db.notes.find({"tags": "demo"}).to_list(100)
+Use [MongoDB Compass](https://www.mongodb.com/products/compass):
+
+```
+mongodb://devlab:devlab@localhost:27017/devlab?authSource=admin
+```
+
+### Step 4 — Connect Python API
+
+Files added/changed:
+
+| File | Purpose |
+|------|---------|
+| `backend/app/mongo_client.py` | MongoDB connection |
+| `backend/app/main.py` | `GET/POST /notes` |
+| `backend/requirements.txt` | `pymongo` |
+
+```powershell
+cd backend
+.\.venv\Scripts\pip.exe install pymongo
+```
+
+### Step 5 — Compare both databases
+
+In http://127.0.0.1:8000/docs:
+
+| Endpoint | Database | Shape |
+|----------|----------|-------|
+| GET `/todos` | PostgreSQL | `{ id: 1, title, done }` — numeric id |
+| GET `/notes` | MongoDB | `{ id: "6a4a...", title, tags: [] }` — string id + tags |
+
+Same API, different storage models.
+
+## Basic MongoDB operations
+
+```javascript
+db.notes.insertOne({ title: "Hello", tags: ["demo"] })
+db.notes.find({ tags: "learning" })
+db.notes.updateOne({ title: "Hello" }, { $set: { done: true } })
+db.notes.deleteOne({ title: "Hello" })
 ```
 
 ## Modeling tips
 
-**Embed** when data is read together and doesn't grow unbounded:
+**Embed** small data read together:
 
 ```json
-{
-  "user": "alice",
-  "comments": [
-    { "text": "Nice!", "at": "2026-01-01" }
-  ]
-}
+{ "user": "alice", "comments": [{ "text": "Nice!" }] }
 ```
 
-**Reference** when related data is large or shared:
+**Reference** large or shared data:
 
 ```json
-{ "userId": "abc123", "postId": "xyz789" }
+{ "userId": 1, "postId": "abc123" }
 ```
 
-## Learning exercises
+## Files in this repo
 
-1. Insert sample notes via MongoDB Compass (GUI) or shell
-2. Add a FastAPI route that reads/writes notes in Mongo
-3. Compare the same "todo" feature in Postgres vs Mongo — notice tradeoffs
+- [database/mongodb/seed-notes.js](../database/mongodb/seed-notes.js)
+- [database/mongodb/README.md](../database/mongodb/README.md)
 
-We'll do exercise 3 together — it's one of the best ways to internalize when to use which database.
+## Checklist
+
+- [ ] MongoDB container running
+- [ ] Sample notes in `devlab.notes`
+- [ ] GET `/notes` returns documents
+- [ ] POST `/notes` creates a note
+- [ ] Compared `/todos` vs `/notes` in `/docs`
+- [ ] Committed: `feat: add MongoDB notes API with pymongo and seed data`
+
+## Next lesson
+
+[08 — Mini SaaS](08-mini-saas.md) — auth, multi-user data, deploy.
