@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
     display_name VARCHAR(100),
+    password_hash VARCHAR(255),
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 

@@ -16,8 +16,8 @@ Repo: dev-learning-lab
 GitHub: https://github.com/Masoom-ui/dev-learning-lab
 Learner: Jatin (jatinwork.001@gmail.com)
 GitHub account: Masoom-ui
-Current lesson: 8 — Mini SaaS (next)
-Next step: Lesson 8 — Mini SaaS (when ready)
+Current lesson: 8 — Mini SaaS (in progress)
+Next step: Lesson 8 Step 3 — React login UI + token in fetch calls
 Read: progress.md + lessons.md
 
 Servers needed for Lesson 4:
@@ -67,7 +67,22 @@ $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";"
 
 ## Current focus
 
-**Lesson 7 — MongoDB · Documents, collections, flexible data** — ✅ Complete
+**Lesson 8 — Mini SaaS · Auth, multi-user, deploy** — 🔄 In progress
+
+| Step | Action | Status |
+|------|--------|--------|
+| 1 | Backend auth — register, login, JWT | ✅ Done |
+| 2 | Protect `/todos` and `/notes` | ✅ Done |
+| 3 | React login UI + send token | 🔄 Next |
+| 4 | Deploy to the internet | ⬜ Pending |
+
+**Guide:** [docs/08-mini-saas.md](docs/08-mini-saas.md)
+
+**You are on branch:** `main`
+
+---
+
+## Lesson 7 — MongoDB (complete)
 
 | Step | Action | Status |
 |------|--------|--------|
