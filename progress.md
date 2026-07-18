@@ -16,14 +16,17 @@ Repo: dev-learning-lab
 GitHub: https://github.com/Masoom-ui/dev-learning-lab
 Learner: Jatin (jatinwork.001@gmail.com)
 GitHub account: Masoom-ui
-Current lesson: 8 — Mini SaaS (in progress)
-Next step: Lesson 8 Step 4 — deploy (when ready)
+Current lesson: 12 — Search todos (complete)
+Next step: Optional — pytest, CI, TypeScript, or portfolio polish
 Read: progress.md + lessons.md
 
-Servers needed for Lesson 4:
+Live app: https://dev-learning-lab.vercel.app
+API: https://dev-learning-lab-api.onrender.com
+
+Servers needed for local dev (Lesson 4+):
   Terminal 1: cd backend && .\.venv\Scripts\uvicorn.exe app.main:app --reload
-  Terminal 2: cd frontend/vanilla && ..\..\backend\.venv\Scripts\python.exe -m http.server 5500
-  Browser: http://127.0.0.1:5500 (NOT file://)
+  Terminal 2: cd frontend/react && npm.cmd run dev
+  Browser: http://localhost:5173
 ```
 
 ---
@@ -67,18 +70,31 @@ $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";"
 
 ## Current focus
 
-**Lesson 8 — Mini SaaS · Auth, multi-user, deploy** — 🔄 In progress
+**Lessons 9–12 — Extend the live app** — ✅ Complete
+
+| Lesson | Topic | Status |
+|--------|-------|--------|
+| 9 | Full todo CRUD (PATCH/DELETE) | ✅ Done |
+| 10 | Notes UI in React (MongoDB) | ✅ Done |
+| 11 | Components, hooks, loading/error UX | ✅ Done |
+| 12 | Search todos (`GET /todos?q=`) | ✅ Done |
+
+**Guides:** [docs/09-crud-todos.md](docs/09-crud-todos.md) through [docs/12-search-todos.md](docs/12-search-todos.md)
+
+**Live app:** https://dev-learning-lab.vercel.app
+
+---
+
+## Lesson 8 — Mini SaaS (complete)
 
 | Step | Action | Status |
 |------|--------|--------|
 | 1 | Backend auth — register, login, JWT | ✅ Done |
 | 2 | Protect `/todos` and `/notes` | ✅ Done |
 | 3 | React login UI + send token | ✅ Done |
-| 4 | Deploy to the internet | 🔄 In progress — see [deploy.md](deploy.md) |
+| 4 | Deploy to the internet | ✅ Done |
 
-**Guide:** [docs/08-mini-saas.md](docs/08-mini-saas.md)
-
-**You are on branch:** `main`
+**Guide:** [docs/08-mini-saas.md](docs/08-mini-saas.md) · [docs/deploy.md](docs/deploy.md)
 
 ---
 
@@ -284,14 +300,14 @@ cd C:\Users\KevinTewani\Documents\Projects\dev-learning-lab\frontend\vanilla
 
 ---
 
-## Lessons not started
+## Lessons not started (optional next)
 
-| Lesson | Topic | Guide |
-|--------|-------|-------|
-| 5 | React | [docs/05-react.md](docs/05-react.md) |
-| 6 | PostgreSQL | [docs/06-postgresql.md](docs/06-postgresql.md) |
-| 7 | MongoDB | [docs/07-mongodb.md](docs/07-mongodb.md) |
-| 8 | Mini SaaS | TBD |
+| Topic | Ideas |
+|-------|-------|
+| Testing | `pytest` for API, Vitest for React |
+| CI | GitHub Actions on push |
+| TypeScript | Migrate React to `.tsx` |
+| React Router | Separate login/dashboard URLs |
 
 ---
 
@@ -331,13 +347,21 @@ cd C:\Users\KevinTewani\Documents\Projects\dev-learning-lab\frontend\vanilla
 
 ---
 
-## Next up
+### 2026-07-18
 
-1. **Lesson 4 Step 5** — show `/about` data on the webpage
-2. Commit CORS change + updated `progress.md`
-3. Try adding a todo via the form (POST to API)
-4. **Lesson 5** — React (when ready)
+- Deployed to production: Render API + Vercel frontend + MongoDB Atlas
+- Set `MONGODB_URL` and `CORS_ORIGINS` on Render
+- Completed Lessons 9–12: todo CRUD, notes UI, components/hooks, search
+- Updated exercises checklist, progress, and lesson guides
 
 ---
 
-*Last updated: 2026-07-04 · Maintained with [lessons.md](lessons.md)*
+## Next up
+
+1. **Optional** — API tests with pytest
+2. **Optional** — GitHub Actions CI
+3. **Portfolio** — screenshots + README polish for job applications
+
+---
+
+*Last updated: 2026-07-18 · Maintained with [lessons.md](lessons.md)*

@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
 import { apiUrl, authFetch, clearToken, getToken, setToken } from "./api";
+import AuthForm from "./components/AuthForm";
+import NotesList from "./components/NotesList";
+import TodoList from "./components/TodoList";
+import { useNotes } from "./hooks/useNotes";
+import { useTodos } from "./hooks/useTodos";
 
 function App() {
   const [health, setHealth] = useState("checking...");
@@ -10,8 +15,29 @@ function App() {
   const [displayName, setDisplayName] = useState("");
   const [authError, setAuthError] = useState("");
   const [authLoading, setAuthLoading] = useState(false);
-  const [todos, setTodos] = useState([]);
-  const [title, setTitle] = useState("");
+
+  const loggedIn = Boolean(user);
+  const {
+    todos,
+    loading: todosLoading,
+    error: todosError,
+    search,
+    setSearch,
+    addTodo,
+    toggleTodo,
+    deleteTodo,
+    clearTodos,
+  } = useTodos(loggedIn);
+
+  const {
+    notes,
+    loading: notesLoading,
+    error: notesError,
+    addNote,
+    toggleNote,
+    deleteNote,
+    clearNotes,
+  } = useNotes(loggedIn);
 
   useEffect(() => {
     fetch(apiUrl("/api/health"))
@@ -34,18 +60,6 @@ function App() {
         setUser(null);
       });
   }, []);
-
-  useEffect(() => {
-    if (!user) return;
-
-    authFetch("/api/todos")
-      .then((res) => {
-        if (!res.ok) throw new Error("Could not load todos");
-        return res.json();
-      })
-      .then(setTodos)
-      .catch(() => setTodos([]));
-  }, [user]);
 
   async function handleAuth(e) {
     e.preventDefault();
@@ -88,100 +102,30 @@ function App() {
   function handleLogout() {
     clearToken();
     setUser(null);
-    setTodos([]);
+    clearTodos();
+    clearNotes();
     setAuthError("");
-  }
-
-  async function addTodo(e) {
-    e.preventDefault();
-    if (!title.trim()) return;
-
-    const res = await authFetch("/api/todos", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title }),
-    });
-
-    if (res.ok) {
-      const todo = await res.json();
-      setTodos((prev) => [...prev, todo]);
-      setTitle("");
-    }
   }
 
   if (!user) {
     return (
-      <main className="container">
-        <h1>Dev Learning Lab — Sign in</h1>
-        <p className="subtitle">API status: {health}</p>
-
-        <section className="card auth-card">
-          <div className="auth-tabs">
-            <button
-              type="button"
-              className={authMode === "login" ? "tab active" : "tab"}
-              onClick={() => {
-                setAuthMode("login");
-                setAuthError("");
-              }}
-            >
-              Log in
-            </button>
-            <button
-              type="button"
-              className={authMode === "register" ? "tab active" : "tab"}
-              onClick={() => {
-                setAuthMode("register");
-                setAuthError("");
-              }}
-            >
-              Register
-            </button>
-          </div>
-
-          <form onSubmit={handleAuth} className="auth-form">
-            {authMode === "register" && (
-              <label>
-                Display name
-                <input
-                  value={displayName}
-                  onChange={(e) => setDisplayName(e.target.value)}
-                  placeholder="Jatin"
-                />
-              </label>
-            )}
-            <label>
-              Email
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
-                required
-              />
-            </label>
-            <label>
-              Password
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Min 6 characters"
-                minLength={6}
-                required
-              />
-            </label>
-            {authError && <p className="error">{authError}</p>}
-            <button type="submit" disabled={authLoading}>
-              {authLoading
-                ? "Please wait..."
-                : authMode === "login"
-                  ? "Log in"
-                  : "Create account"}
-            </button>
-          </form>
-        </section>
-      </main>
+      <AuthForm
+        health={health}
+        authMode={authMode}
+        setAuthMode={(mode) => {
+          setAuthMode(mode);
+          setAuthError("");
+        }}
+        email={email}
+        setEmail={setEmail}
+        password={password}
+        setPassword={setPassword}
+        displayName={displayName}
+        setDisplayName={setDisplayName}
+        authError={authError}
+        authLoading={authLoading}
+        onSubmit={handleAuth}
+      />
     );
   }
 
@@ -199,26 +143,25 @@ function App() {
         </button>
       </header>
 
-      <section className="card">
-        <h2>Your todos</h2>
-        <form onSubmit={addTodo} className="todo-form">
-          <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="What are you building today?"
-          />
-          <button type="submit">Add</button>
-        </form>
-        {todos.length === 0 ? (
-          <p className="muted">No todos yet — add one above.</p>
-        ) : (
-          <ul>
-            {todos.map((todo) => (
-              <li key={todo.id}>{todo.title}</li>
-            ))}
-          </ul>
-        )}
-      </section>
+      <TodoList
+        todos={todos}
+        loading={todosLoading}
+        error={todosError}
+        search={search}
+        onSearchChange={setSearch}
+        onAdd={addTodo}
+        onToggle={toggleTodo}
+        onDelete={deleteTodo}
+      />
+
+      <NotesList
+        notes={notes}
+        loading={notesLoading}
+        error={notesError}
+        onAdd={addNote}
+        onToggle={toggleNote}
+        onDelete={deleteNote}
+      />
     </main>
   );
 }

@@ -12,7 +12,7 @@ Small challenges we'll complete together. Check them off as you go.
 
 - [x] Run the FastAPI server and open `/docs`
 - [x] Add a `GET /about` route with your name
-- [ ] Add `PATCH /todos/{id}` to mark a todo done
+- [x] Add `PATCH /todos/{id}` to mark a todo done
 
 ## Frontend (vanilla)
 
@@ -28,7 +28,7 @@ Small challenges we'll complete together. Check them off as you go.
 ## React
 
 - [x] Run `npm run dev` in `frontend/react`
-- [ ] Add a "delete todo" button
+- [x] Add a "delete todo" button
 
 ## Mini SaaS (later)
 

@@ -121,7 +121,103 @@ button.secondary {
   margin: 0;
 }
 
+.small-hint {
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #475569;
+  background: #0f172a;
+  color: inherit;
+  margin-bottom: 0.75rem;
+}
+
+.note-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.note-form input {
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #475569;
+  background: #0f172a;
+  color: inherit;
+}
+
+.item-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.item-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #334155;
+}
+
+.item-list li.done span {
+  text-decoration: line-through;
+  color: #64748b;
+}
+
+.todo-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  cursor: pointer;
+}
+
+button.small {
+  padding: 0.25rem 0.6rem;
+  font-size: 0.85rem;
+}
+
+button.danger {
+  background: #dc2626;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  width: 100%;
+  padding-left: 1.5rem;
+}
+
+.tag {
+  font-size: 0.75rem;
+  background: #334155;
+  color: #cbd5e1;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+}
+
 ul {
   margin: 0;
   padding-left: 1.25rem;
+}
+
+@media (max-width: 480px) {
+  .dashboard-header {
+    flex-direction: column;
+  }
+
+  .todo-form {
+    flex-direction: column;
+  }
 }
