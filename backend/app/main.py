@@ -6,6 +6,7 @@ from fastapi import Depends, FastAPI, HTTPException, Query, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr, Field
 from pymongo import ReturnDocument
+from pymongo.errors import PyMongoError
 
 from app.auth import create_access_token, hash_password, verify_password
 from app.bootstrap import bootstrap_db
@@ -312,8 +313,14 @@ def delete_todo(
 
 @app.get("/notes", response_model=list[Note])
 def list_notes(current_user: CurrentUser = Depends(get_current_user)):
-    docs = get_notes_collection().find({"user_id": current_user.id}).sort("_id", 1)
-    return [_doc_to_note(doc) for doc in docs]
+    try:
+        docs = get_notes_collection().find({"user_id": current_user.id}).sort("_id", 1)
+        return [_doc_to_note(doc) for doc in docs]
+    except PyMongoError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="MongoDB unavailable — check Atlas network access (0.0.0.0/0) and MONGODB_URL on Render.",
+        ) from exc
 
 
 @app.post("/notes", response_model=Note, status_code=201)
@@ -327,7 +334,13 @@ def create_note(
         "tags": payload.tags,
         "done": False,
     }
-    result = get_notes_collection().insert_one(doc)
+    try:
+        result = get_notes_collection().insert_one(doc)
+    except PyMongoError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="MongoDB unavailable — check Atlas network access (0.0.0.0/0) and MONGODB_URL on Render.",
+        ) from exc
     doc["_id"] = result.inserted_id
     return _doc_to_note(doc)
 

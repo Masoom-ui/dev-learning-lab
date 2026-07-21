@@ -1,9 +1,9 @@
-FROM python:3.12-slim
+FROM python:3.12-bookworm
 
 WORKDIR /app
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends libpq-dev ca-certificates \
+    && apt-get install -y --no-install-recommends libpq-dev ca-certificates openssl \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
