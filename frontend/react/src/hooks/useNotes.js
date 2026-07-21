@@ -11,10 +11,17 @@ export function useNotes(enabled) {
     setError("");
     try {
       const res = await authFetch("/api/notes");
-      if (!res.ok) throw new Error("Could not load notes");
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.detail || `Could not load notes (${res.status})`);
+      }
       setNotes(await res.json());
-    } catch {
-      setError("Could not load notes — is MongoDB running?");
+    } catch (err) {
+      setError(
+        err.message?.includes("notes")
+          ? err.message
+          : "Could not load notes — is MongoDB running?",
+      );
       setNotes([]);
     } finally {
       setLoading(false);
